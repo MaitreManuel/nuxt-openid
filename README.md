@@ -15,22 +15,20 @@ OpenID-Connect (OIDC) integration module for [Nuxt](https://github.com/nuxt/nuxt
 ## Why use this module 
 
 - The official [auth](https://github.com/nuxt-community/auth-module/issues/1719) module doesn't support Nuxt 3.
-- [nuxt-oidc](https://github.com/deko2369/nuxt-oidc) also not support Nuxt 3.0.
+- [nuxt-openid](https://github.com/deko2369/nuxt-openid) also not support Nuxt 3.0.
 
 ## How to use this module
 
 - Add to a project
 ```bash
-npx nuxi module add nuxt-oidc
+npx nuxi module add nuxt-openid
 ```
 
 - Or manually
 ```bash
-pnpm add nuxt-oidc
+pnpm add nuxt-openid
 # Or
-npm install --save nuxt-oidc
-# Or
-yarn add nuxt-oidc
+npm install --save nuxt-openid
 ```
 
 Add in your `nuxt.config.ts`
@@ -39,13 +37,13 @@ export default defineNuxtConfig({
   // [...]
   modules: [
     // [...]
-    'nuxt-oidc',
+    'nuxt-openid',
   ],
   // [...]
 });
 ```
 
-- Then, add `nuxt-oidc` module to nuxt.config.ts and change to your configs (`openidConnect`):
+- Then, add `nuxt-openid` module to nuxt.config.ts and change to your configs (`openidConnect`):
 ```ts
 export default defineNuxtConfig({
   // [...]]
