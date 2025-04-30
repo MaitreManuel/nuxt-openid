@@ -1,5 +1,6 @@
-# Nuxt OpenID-Connect
-[![npm version](https://img.shields.io/npm/v/nuxt-openid-connect.svg?style=flat)](https://www.npmjs.com/package/nuxt-openid-connect)
+# Nuxt OpenID
+
+> This is a fork from [nuxt-openid-connect](https://www.npmjs.com/package/nuxt-openid-connect) developed by [aborn](https://github.com/aborn).
 
 OpenID-Connect (OIDC) integration module for [Nuxt](https://github.com/nuxt/nuxt)
 
@@ -87,15 +88,15 @@ export default defineNuxtConfig({
 - Usage in setup.
 
 ```ts
-const oidc = useOidc()
+const oidc = useOidc();
 ```
 
 ## 💻 Development
 
 - Clone repository
-- Install dependencies using `yarn install`
-- Run `yarn dev:prepare` to generate type stubs.
-- Use `yarn run` to start [playground](./playground) in development mode.
+- Install dependencies using `npm install`
+- Run `npm run dev:prepare` to generate type stubs.
+- Use `npm run` to start [playground](./playground) in development mode.
 
 ## License
 
