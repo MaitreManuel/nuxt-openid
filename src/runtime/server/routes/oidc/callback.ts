@@ -43,7 +43,7 @@ export default defineEventHandler(async (event) => {
     res.end()
   } else if (params.code) {
     // Authorization Code Flow: code -> access_token
-    console.log('[CALLBACK]: has code in params, code:' + params.code + ' ,sessionid=' + sessionid)
+    console.log('[CALLBACK]: has code in params, code:' + params.code + ', sessionid=' + sessionid)
     const tokenSet = await issueClient.callback(callbackUrl, params, { nonce: sessionid })
     if (tokenSet.access_token) {
       await processUserInfo(tokenSet.access_token, tokenSet, event)
@@ -51,23 +51,23 @@ export default defineEventHandler(async (event) => {
     res.writeHead(302, { Location: redirectUrl || '/' })
     res.end()
   } else {
-    // Error dealing.
-    // eslint-disable-next-line no-lonely-if
-    if (params.error) {
+    if (!Object.entries(params).length) {
+      console.log('[CALLBACK]: callback redirect');
+      res.writeHead(302, { Location: redirectUrl || '/' });
+    } else if (params.error) { // Error dealing.
       // redirct to auth failed error page.
       console.error('[CALLBACK]: error callback')
       console.error(params.error + ', error_description:' + params.error_description)
       res.writeHead(302, { Location: '/oidc/error' })
-      res.end()
     } else if (responseMode === 'fragment') {
       console.warn('[CALLBACK]: callback redirect')
       res.writeHead(302, { Location: '/oidc/cbt?redirect=' + redirectUrl })
-      res.end()
     } else {
       console.error('[CALLBACK]: error callback')
-      res.writeHead(302, { Location: redirectUrl || '/' })
-      res.end()
+      res.writeHead(302, { Location: redirectUrl || '/' });
     }
+
+    res.end();
   }
 
   async function processUserInfo(accessToken: string, tokenSet: any, event: any) {
