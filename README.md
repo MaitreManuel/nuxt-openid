@@ -15,7 +15,7 @@ OpenID-Connect (OIDC) integration module for [Nuxt](https://github.com/nuxt/nuxt
 ## Why use this module 
 
 - The official [auth](https://github.com/nuxt-community/auth-module/issues/1719) module doesn't support Nuxt 3.
-- [nuxt-openid](https://github.com/deko2369/nuxt-openid) also not support Nuxt 3.0.
+- [nuxt-oidc](https://github.com/deko2369/nuxt-oidc) also not support Nuxt 3.0.
 
 ## How to use this module
 
