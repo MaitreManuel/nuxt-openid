@@ -1,0 +1,59 @@
+{
+  "name": "nuxt-oidc",
+  "version": "0.7.1",
+  "description": "An nuxt 3 module with OpenID-Connect(OIDC) integration.",
+  "keywords": [
+    "nuxt",
+    "oidc",
+    "module",
+    "nuxt 3.0",
+    "auth"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MaitreManuel/nuxt-openid-connect.git"
+  },
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/module.mjs",
+      "require": "./dist/module.cjs"
+    }
+  },
+  "main": "./dist/module.cjs",
+  "types": "./dist/types.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "prepack": "nuxt-module-build",
+    "dev": "nuxi dev playground",
+    "dev:build": "nuxi build playground",
+    "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
+    "release": "npm run lint && npm run test && npm run prepack && changelogen --release && npm publish && git push --follow-tags",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "pub": "npm publish --access public"
+  },
+  "dependencies": {
+    "@nuxt/kit": "^3.9.3",
+    "defu": "^6.0.0",
+    "openid-client": "^5.1.6",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@nuxt/module-builder": "latest",
+    "@nuxtjs/eslint-config-typescript": "latest",
+    "@types/node": "^20.11.10",
+    "@types/uuid": "^8.3.4",
+    "eslint": "latest",
+    "nuxt": "^3.9.3",
+    "typescript": "^5.3.3"
+  },
+  "bugs": {
+    "url": "https://github.com/MaitreManuel/nuxt-openid-connect/issues"
+  },
+  "homepage": "https://github.com/MaitreManuel/nuxt-openid-connect#readme",
+  "author": "aborn"
+}
