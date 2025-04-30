@@ -1,12 +1,12 @@
 # Nuxt OpenID-Connect
 [![npm version](https://img.shields.io/npm/v/nuxt-openid-connect.svg?style=flat)](https://www.npmjs.com/package/nuxt-openid-connect)
 
-OpenID-Connect (OIDC) integration module for nuxt 3.0. (V0.4.0+ support nuxt 3.0.0-stable.)
+OpenID-Connect (OIDC) integration module for [Nuxt](https://github.com/nuxt/nuxt)
 
 ## Features
 
-- An [**Nuxt 3**](https://v3.nuxtjs.org) module (Note: nuxt 2.x not supported).
-- OIDC integration ( implemetation based on [openid-client](https://github.com/panva/node-openid-client) ).
+- A [**Nuxt 3**](https://v3.nuxtjs.org) module (Note: Nuxt 2 is not supported).
+- OIDC integration (implemetation based on [openid-client](https://github.com/panva/node-openid-client)).
 - [State Management](https://v3.nuxtjs.org/guide/features/state-management/), shared login user info.
 - OIDC provider config.
 - Encrypt userInfo cookie.
@@ -14,23 +14,23 @@ OpenID-Connect (OIDC) integration module for nuxt 3.0. (V0.4.0+ support nuxt 3.0
 
 ## Why use this module 
 
-- The official [auth](https://github.com/nuxt-community/auth-module/issues/1719) module doesn't support Nuxt 3.0 yet.
+- The official [auth](https://github.com/nuxt-community/auth-module/issues/1719) module doesn't support Nuxt 3.
 - [nuxt-oidc](https://github.com/deko2369/nuxt-oidc) also not support Nuxt 3.0.
 
 ## How to use this module
 
 - Add to a project
 ```bash
-npx nuxi module add nuxt-openid-connect
+npx nuxi module add nuxt-oidc
 ```
 
 - Or manually
 ```bash
-pnpm add nuxt-openid-connect
+pnpm add nuxt-oidc
 # Or
-npm install --save nuxt-openid-connect
+npm install --save nuxt-oidc
 # Or
-yarn add nuxt-openid-connect
+yarn add nuxt-oidc
 ```
 
 Add in your `nuxt.config.ts`
@@ -39,36 +39,16 @@ export default defineNuxtConfig({
   // [...]
   modules: [
     // [...]
-    'nuxt-openid-connect',
+    'nuxt-oidc',
   ],
   // [...]
 });
 ```
 
-- Then, add `nuxt-openid-connect` module to nuxt.config.ts and change to your configs (`openidConnect`):
+- Then, add `nuxt-oidc` module to nuxt.config.ts and change to your configs (`openidConnect`):
 ```ts
 export default defineNuxtConfig({
-  // runtime config for nuxt-openid-connect example -- you can use env variables see .env.example
-  runtimeConfig: {
-    openidConnect: {
-      op: {
-        issuer: '',
-        clientId: '',
-        clientSecret: '',
-        callbackUrl: '',
-      },
-      config: {
-        cookieFlags: {
-          access_token: {
-            httpOnly: true,
-            secure: false,
-          }
-        }
-      }
-    },
-  },
-
-  // configuration for nuxt-openid-connect
+  // [...]]
   openidConnect: {
     addPlugin: true,
     op: {
@@ -102,17 +82,15 @@ export default defineNuxtConfig({
       }
     }
   }
-})
-
+  // [...]
+});
 ```
 
-- Useage in setup.
+- Usage in setup.
 
 ```ts
 const oidc = useOidc()
 ```
-
-Here is an [usage example](https://github.com/aborn/nuxt-openid-connect/blob/main/playground/pages/index.vue).
 
 ## 💻 Development
 
