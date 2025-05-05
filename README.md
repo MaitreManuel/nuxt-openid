@@ -73,22 +73,43 @@ export default defineNuxtConfig({
       cookieEncryptIV: 'ab83667c72eec9e4', // 16
       cookieEncryptALGO: 'aes-256-cbc',
       cookieMaxAge: 24 * 60 * 60, //  default one day
-      cookieFlags: { // default is empty 
-        access_token: { 
+      cookieFlags: { // default is empty
+        access_token: {
           httpOnly: true,
-          secure: false,
-        }
-      }
+          secure: true,
+          sameSite: 'Lax',
+        },
+        refresh_token: {
+          httpOnly: true,
+          secure: true,
+          sameSite: 'Lax',
+        },
+      },
     }
   }
   // [...]
 });
 ```
 
-- Usage in setup.
+- Usage.
 
 ```ts
 const oidc = useOidc();
+
+// Invoke login page then redirect to "/profile", default is "/"
+oidc.login('/profile');
+
+// End session and redirect to "/homepage", default is "/"
+oidc.logout('/homepage');
+
+// Refresh user's informations
+oidc.fetchUser();
+
+// Return user's information
+oidc.user
+
+// Return boolean of session's statut
+oidc.isLoggedIn
 ```
 
 ## 💻 Development
