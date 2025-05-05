@@ -19,8 +19,9 @@ export const setCookieTokenAndRefreshToken = (event: any, config: any, tokenSet:
   // refresh token setting
   if (tokenSet && tokenSet.refresh_expires_in && tokenSet.refresh_token) {
     setCookie(event, config.cookiePrefix + 'refresh_token', tokenSet.refresh_token, {
-      maxAge: tokenSet.refresh_expires_in
-    })
+      maxAge: tokenSet.refresh_expires_in,
+      ...config.cookieFlags['refresh_token' as keyof typeof config.cookieFlags],
+    });
   }
 }
 
