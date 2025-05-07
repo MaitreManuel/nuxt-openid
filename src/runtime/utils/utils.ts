@@ -1,19 +1,21 @@
-import { setCookie } from 'h3'
-import { encrypt } from './encrypt'
+import { setCookie } from 'h3';
+
+import { encrypt } from './encrypt';
 
 export const setCookieTokenAndRefreshToken = (event: any, config: any, tokenSet: any) => {
   // token setting
   if (tokenSet && tokenSet.expires_at) {
-    const expireDate = new Date(tokenSet.expires_at * 1000) // second to ms
+    const expireDate = new Date(tokenSet.expires_at * 1000); // second to ms
+
     setCookie(event, config.cookiePrefix + 'access_token', tokenSet.access_token, {
       expires: expireDate,
-      ...config.cookieFlags['access_token' as keyof typeof config.cookieFlags]
-    })
+      ...config.cookieFlags['access_token' as keyof typeof config.cookieFlags],
+    });
   } else {
     setCookie(event, config.cookiePrefix + 'access_token', tokenSet.access_token, {
       maxAge: config.cookieMaxAge,
-      ...config.cookieFlags['access_token' as keyof typeof config.cookieFlags]
-    })
+      ...config.cookieFlags['access_token' as keyof typeof config.cookieFlags],
+    });
   }
 
   // refresh token setting
@@ -26,49 +28,50 @@ export const setCookieTokenAndRefreshToken = (event: any, config: any, tokenSet:
 }
 
 export const setCookieInfo = async (event: any, config: any, userinfo: any) => {
-  const { cookie, isCookieUserInfo } = config
+  const { cookie, isCookieUserInfo } = config;
+
   if (isCookieUserInfo) {
     for (const [key, value] of Object.entries(userinfo)) {
       if (cookie && Object.prototype.hasOwnProperty.call(cookie, key)) {
         setCookie(event, config.cookiePrefix + key, JSON.stringify(value), {
           maxAge: config.cookieMaxAge,
-          ...config.cookieFlags[key as keyof typeof config.cookieFlags]
-        })
+          ...config.cookieFlags[key as keyof typeof config.cookieFlags],
+        });
       }
     }
     try {
-      const encryptedText = await encrypt(JSON.stringify(userinfo), config)
-      setCookie(event, config.cookiePrefix + 'user_info', encryptedText, { ...config.cookieFlags['user_info' as keyof typeof config.cookieFlags] })
+      const encryptedText = await encrypt(JSON.stringify(userinfo), config);
+
+      setCookie(event, config.cookiePrefix + 'user_info', encryptedText, { ...config.cookieFlags['user_info' as keyof typeof config.cookieFlags] });
     } catch (err) {
-      console.error('encrypted userinfo error.', err)
+      console.error(`encrypted userinfo error. ${err}`);
     }
   }
 }
 
-export const isUnset = (o: unknown): boolean =>
-  typeof o === 'undefined' || o === null
+export const isUnset = (o: unknown): boolean => typeof o === 'undefined' || o === null;
 
-export const isSet = (o: unknown): boolean => !isUnset(o)
+export const isSet = (o: unknown): boolean => !isUnset(o);
 
 export const getRedirectUrl = (uri: string | null | undefined): string => {
   if (!uri) {
-    return '/'
+    return '/';
   }
-  const idx = uri.indexOf('?')
-  const searchParams = new URLSearchParams(idx >= 0 ? uri.substring(idx) : uri)
-  return searchParams.get('redirect') || '/'
+
+  const idx = uri.indexOf('?');
+  const searchParams = new URLSearchParams(idx >= 0 ? uri.substring(idx) : uri);
+
+  return searchParams.get('redirect') || '/';
 }
 
 export function getCallbackUrl(callbackUrl: string, redirectUrl: string, host: string | undefined): string {
-  if ((callbackUrl && callbackUrl.length > 0)) {
-    return callbackUrl.includes('?') ? (callbackUrl + '&redirect=' + redirectUrl) : (callbackUrl + '?redirect=' + redirectUrl)
-  } else {
-    return getDefaultBackUrl(redirectUrl, host)
-  }
+  return callbackUrl && callbackUrl.length > 0
+    ? `${callbackUrl}${callbackUrl.includes('?') ? '&' : '?'}redirect=${redirectUrl}`
+    : getDefaultBackUrl(redirectUrl, host);
 }
 
 export function getDefaultBackUrl(redirectUrl: string, host: string | undefined): string {
-  return 'http://' + host + '/oidc/cbt?redirect=' + redirectUrl
+  return `http://${host}/oidc/cbt?redirect=${redirectUrl}`;
 }
 
 /**
@@ -96,17 +99,19 @@ export function getDefaultBackUrl(redirectUrl: string, host: string | undefined)
    * ii)  For purposes of this specification, the default Response Mode for the OAuth 2.0 token Response Type is the fragment encoding.
    * iii) Response_mode 'query' not allowed for implicit or hybrid flow
    */
+
 export function getResponseMode(config: any): string {
-  const responseType = config.response_type
-  return config.response_mode || getDefaultResponseMode(responseType)
+  return config.response_mode || getDefaultResponseMode(config.response_type);
 }
 
 function getDefaultResponseMode(responseType: string): string {
-  const resTypeArray = responseType.match(/[^ ]+/g)
-  if (resTypeArray && resTypeArray?.findIndex(i => i === 'code') >= 0) {
-    return 'query'
-  } else if (resTypeArray && resTypeArray?.findIndex(i => i === 'token')) {
-    return 'fragment'
+  const resTypeArray = responseType.match(/[^ ]+/g);
+
+  if (resTypeArray?.findIndex(i => i === 'code') >= 0) {
+    return 'query';
+  } else if (resTypeArray?.findIndex(i => i === 'token')) {
+    return 'fragment';
   }
-  return 'query'
+
+  return 'query';
 }

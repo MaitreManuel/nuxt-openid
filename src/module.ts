@@ -19,6 +19,7 @@ export type OidcProvider = {
   clientId: string,
   clientSecret: string,
   callbackUrl: string,
+  callbackLogoutUrl: string,
   scope: Array<string>
 }
 
@@ -62,6 +63,7 @@ export default defineNuxtModule<ModuleOptions>({
       clientId: '',
       clientSecret: '',
       callbackUrl: '',
+      callbackLogoutUrl: '',
       scope: [
       ]
     },
@@ -81,9 +83,6 @@ export default defineNuxtModule<ModuleOptions>({
     }
   },
   setup(options, nuxt) {
-    console.log('[DEBUG MODE]: ', options.config.debug)
-    console.debug('[WITHOUT ENV VARS] options:', options)
-
     const { resolve } = createResolver(import.meta.url)
     const resolveRuntimeModule = (path: string) => resolve('./runtime', path)
 

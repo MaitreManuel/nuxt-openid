@@ -1,5 +1,5 @@
 import { deleteCookie, defineEventHandler, getCookie } from 'h3';
-import { getDefaultBackUrl, getRedirectUrl } from '../../../utils/utils';
+import { getCallbackUrl, getDefaultBackUrl, getRedirectUrl } from '../../../utils/utils';
 import { initClient } from '../../../utils/issueclient';
 import { useRuntimeConfig } from '#imports';
 
@@ -8,11 +8,14 @@ export default defineEventHandler(async (event) => {
   const req = event.node.req;
   const res = event.node.res;
 
-  console.log('[LOGOUT]: oidc/logout calling');
+  if (config.debug) {
+    console.log('[LOGOUT]: oidc/logout calling');
+  }
 
   const redirectUrl = getRedirectUrl(req.url);
   const refreshToken = getCookie(event, config.cookiePrefix + 'refresh_token');
 
+  const callbackUrl = getCallbackUrl(op.callbackLogoutUrl, redirectUrl, req.headers.host);
   const defCallBackUrl = getDefaultBackUrl(redirectUrl, req.headers.host);
 
   deleteCookie(event, config.secret);
@@ -20,7 +23,7 @@ export default defineEventHandler(async (event) => {
   deleteCookie(event, config.cookiePrefix + 'refresh_token');
   deleteCookie(event, config.cookiePrefix + 'user_info');
 
-  const issueClient = await initClient(op, req, [defCallBackUrl]);
+  const issueClient = await initClient(op, req, [defCallBackUrl, callbackUrl]);
 
   const tokenSet = await issueClient.refresh(refreshToken);
 
@@ -30,7 +33,9 @@ export default defineEventHandler(async (event) => {
   };
   const logoutUrl = issueClient.endSessionUrl(parameters);
 
-  console.log('[Logout]: Logout Url: ' + logoutUrl);
+  if (config.debug) {
+    console.log(`[Logout]: Logout Url: ${logoutUrl}`);
+  }
 
   // delete part of cookie userinfo (depends on user's setting.).
   const cookie = config.cookie;
