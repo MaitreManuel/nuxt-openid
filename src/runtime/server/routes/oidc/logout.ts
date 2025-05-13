@@ -16,20 +16,18 @@ export default defineEventHandler(async (event) => {
   const refreshToken = getCookie(event, config.cookiePrefix + 'refresh_token');
 
   const callbackUrl = getCallbackUrl(op.callbackLogoutUrl, redirectUrl, req.headers.host);
-  const defCallBackUrl = getDefaultBackUrl(redirectUrl, req.headers.host);
 
   deleteCookie(event, config.secret);
   deleteCookie(event, config.cookiePrefix + 'access_token');
   deleteCookie(event, config.cookiePrefix + 'refresh_token');
   deleteCookie(event, config.cookiePrefix + 'user_info');
 
-  const issueClient = await initClient(op, req, [defCallBackUrl, callbackUrl]);
-
+  const issueClient = await initClient(op, req, [callbackUrl]);
   const tokenSet = await issueClient.refresh(refreshToken);
 
   const parameters = {
     id_token_hint: tokenSet.id_token,
-    post_logout_redirect_uri: defCallBackUrl,
+    post_logout_redirect_uri: callbackUrl,
   };
   const logoutUrl = issueClient.endSessionUrl(parameters);
 
