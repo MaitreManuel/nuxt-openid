@@ -165,8 +165,8 @@ NUXT_OPENID_CONNECT_CONFIG_DEBUG=true
 - Clone repository
 - Install dependencies using `npm install`
 - Run `npm run dev:prepare` to generate type stubs.
-- Use `npm run` to start [playground](./playground) in development mode.
+- Use `npm run dev` to start [playground](./playground) in development mode.
 
-## License
+## ©️ License
 
 [MIT](./LICENSE) - Made with 💚
