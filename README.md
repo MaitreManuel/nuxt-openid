@@ -112,10 +112,10 @@ oidc.isLoggedIn
 | `secret`            |  `string`  | `'oidc._sessionid'`                  | Cookie's name for sessionid                                                                                  |
 | `isCookieUserInfo`  | `boolean`  | `false`                              | For saving user info into cookie                                                                             |
 | `cookie`            |  `object`  | `{}`                                 | Add custom info in user info cookie                                                                          |
-| `cookiePrefix`      |  `string`  | `'oidc._'`                           | Cookie's prefix for `access_token`, `refresh_token` and LocalStorage `user`                                  |
-| `cookieEncrypt`     | `boolean`  | `true`                               | Enable cookie encryption                                                                                     |
-| `cookieEncryptKey`  |  `string`  | `'bfnuxt9c2470cb477d907b1e0917oidc'` | 32 characters                                                                                                |
-| `cookieEncryptIV`   |  `string`  | `'ab83667c72eec9e4'`                 | 16 characters                                                                                                |
+| `cookiePrefix`      |  `string`  | `'oidc._'`                           | Cookies and LocalStorage prefix                                                                              |
+| `cookieEncrypt`     | `boolean`  | `true`                               | Enable cookie encryption for user info cookie                                                                |
+| `cookieEncryptKey`  |  `string`  | `'bfnuxt9c2470cb477d907b1e0917oidc'` | 32-bits                                                                                                      |
+| `cookieEncryptIV`   |  `string`  | `'ab83667c72eec9e4'`                 | 16-bits                                                                                                      |
 | `cookieEncryptALGO` |  `string`  | `'aes-256-cbc'`                      | Algorithm encryption                                                                                         |
 | `cookieMaxAge`      |  `number`  | `24 * 60 * 60`                       | By default, set to one day                                                                                   |
 | `response_type`     |  `string`  | `'id_token'`                         | Response mode settings, more info [here](https://openid.net/specs/oauth-v2-multiple-response-types-1_0.html) |

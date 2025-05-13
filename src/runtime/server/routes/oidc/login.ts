@@ -53,7 +53,7 @@ export default defineEventHandler(async (event) => {
   const authUrl = issueClient.authorizationUrl(parameters);
 
   if (config.debug) {
-    console.log(`[Login]: Auth Url: ${authUrl}, #sessionid: sessionid`);
+    console.log(`[Login]: Auth Url: ${authUrl}, #sessionid: ${sessionid}`);
   }
 
   if (sessionid) {
