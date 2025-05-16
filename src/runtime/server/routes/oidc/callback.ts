@@ -31,7 +31,7 @@ export default defineEventHandler(async (event) => {
 
   deleteCookie(event, config.secret);
 
-  const redirectUrl = getRedirectUrl(req.url);
+  const redirectUrl = getRedirectUrl(req.url, sessionid ? op.redirectUrl : op.redirectLogoutUrl);
 
   const callbackUrl = getCallbackUrl(op.callbackUrl, redirectUrl, req.headers.host);
   const defCallBackUrl = getDefaultBackUrl(redirectUrl, req.headers.host);
@@ -46,7 +46,7 @@ export default defineEventHandler(async (event) => {
     }
 
     await processUserInfo(params.access_token, null, event);
-    res.writeHead(302, { Location: redirectUrl || '/' });
+    res.writeHead(302, { Location: redirectUrl });
     res.end();
   } else if (params.code) {
     // Authorization Code Flow: code -> access_token
@@ -60,7 +60,7 @@ export default defineEventHandler(async (event) => {
       await processUserInfo(tokenSet.access_token, tokenSet, event);
     }
 
-    res.writeHead(302, { Location: redirectUrl || '/' });
+    res.writeHead(302, { Location: redirectUrl });
     res.end();
   } else {
     if (!Object.entries(params).length) {
@@ -68,7 +68,7 @@ export default defineEventHandler(async (event) => {
         console.log('[CALLBACK]: callback redirect');
       }
 
-      res.writeHead(302, { Location: redirectUrl || '/' });
+      res.writeHead(302, { Location: redirectUrl });
     } else if (params.error) {
       // redirct to auth failed error page.
       console.error(`[CALLBACK]: error callback ${params.error}, error_description: ${params.error_description}`);
@@ -79,9 +79,9 @@ export default defineEventHandler(async (event) => {
 
       res.writeHead(302, { Location: '/oidc/cbt?redirect=' + redirectUrl });
     } else {
-      console.error(`[CALLBACK]: error callback ${redirectUrl || '/'}`);
+      console.error(`[CALLBACK]: error callback ${redirectUrl}`);
 
-      res.writeHead(302, { Location: redirectUrl || '/' });
+      res.writeHead(302, { Location: redirectUrl });
     }
 
     res.end();

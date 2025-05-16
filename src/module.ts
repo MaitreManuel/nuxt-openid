@@ -20,6 +20,8 @@ export type OidcProvider = {
   clientSecret: string,
   callbackUrl: string,
   callbackLogoutUrl: string,
+  redirectUrl: string,
+  redirectLogoutUrl: string,
   scope: Array<string>
 }
 
@@ -64,6 +66,8 @@ export default defineNuxtModule<ModuleOptions>({
       clientSecret: '',
       callbackUrl: '',
       callbackLogoutUrl: '',
+      redirectUrl: '/',
+      redirectLogoutUrl: '/',
       scope: [
       ]
     },

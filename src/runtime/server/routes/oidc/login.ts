@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
   const req = event.node.req;
   const res = event.node.res;
 
-  const redirectUrl = getRedirectUrl(req.url);
+  const redirectUrl = getRedirectUrl(req.url, op.redirectUrl);
   const callbackUrl = getCallbackUrl(op.callbackUrl, redirectUrl, req.headers.host);
   const defCallBackUrl = getDefaultBackUrl(redirectUrl, req.headers.host);
 

@@ -80,10 +80,10 @@ export default defineNuxtConfig({
 ```ts
 const oidc = useOidc();
 
-// Invoke login page then redirect to "/profile", default is "/"
+// Invoke login page then redirect to "/profile", override 'redirectUrl' | 'NUXT_OPENID_CONNECT_OP_REDIRECT_URL'
 oidc.login('/profile');
 
-// End session and redirect to "/homepage", default is "/"
+// End session and redirect to "/homepage", override 'redirectLogoutUrl' | 'NUXT_OPENID_CONNECT_OP_REDIRECT_LOGOUT_URL'
 oidc.logout('/homepage');
 
 // Refresh user informations
@@ -106,6 +106,8 @@ oidc.isLoggedIn
 | `clientSecret`      |  `string`  | `''`                                 | Client secret                                                                                                |
 | `callbackUrl`       |  `string`  | `''`                                 | Optional, for custom callback after login                                                                    |
 | `callbackLogoutUrl` |  `string`  | `''`                                 | Optional, for custom callback after logout, same as login by default                                         |
+| `redirectUrl`       |  `string`  | `'/'`                                | For custom redirection after login                                                                           |
+| `redirectLogoutUrl` |  `string`  | `'/'`                                | For custom redirection after logout                                                                          |
 | `scope`             | `string[]` | `[]`                                 | Used during authentication to authorize access to a user's details                                           |
 | **Config**          |            |                                      |                                                                                                              |
 | `debug`             | `boolean`  | `false`                              | Display verbose log on console                                                                               |
@@ -150,11 +152,16 @@ For production, nuxt is generally already built with Nuxt config, and it's not p
 Using runtime config with `.env` vars allow this
 
 ```
-NUXT_OPENID_CONNECT_OP_ISSUER=https://openid.example.com/realms/master
+NUXT_OPENID_CONNECT_OP_ISSUER=https://issuer.example.com/realms/master
 NUXT_OPENID_CONNECT_OP_CLIENT_ID=admin
 NUXT_OPENID_CONNECT_OP_CLIENT_SECRET=1dOuDoUdIdAdAdA2
+
 NUXT_OPENID_CONNECT_OP_CALLBACK_URL=https://nuxt.example.com/oidc/callback
 NUXT_OPENID_CONNECT_OP_CALLBACK_LOGOUT_URL=https://nuxt.example.com/oidc/callback
+
+NUXT_OPENID_CONNECT_OP_REDIRECT_URL=https://nuxt.example.com/profile
+NUXT_OPENID_CONNECT_OP_REDIRECT_LOGOUT_URL=https://nuxt.example.com/homepage
+
 NUXT_OPENID_CONNECT_CONFIG_DEBUG=true
 ```
 

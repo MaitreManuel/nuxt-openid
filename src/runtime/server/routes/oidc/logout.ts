@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
     console.log('[LOGOUT]: oidc/logout calling');
   }
 
-  const redirectUrl = getRedirectUrl(req.url);
+  const redirectUrl = getRedirectUrl(req.url, op.redirectLogoutUrl);
   const refreshToken = getCookie(event, config.cookiePrefix + 'refresh_token');
 
   const callbackUrl = getCallbackUrl(op.callbackLogoutUrl, redirectUrl, req.headers.host);

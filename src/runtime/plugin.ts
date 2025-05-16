@@ -93,25 +93,36 @@ export class Oidc {
     }
   }
 
-  login(redirect = '/') {
+  login(redirect?: string) {
     if (process.client) {
-      const params = new URLSearchParams({ redirect })
-      const toStr = '/oidc/login?' + params.toString()
-      window.location.replace(toStr)
+      let toStr = '/oidc/login';
+
+      if (redirect) {
+        const params = new URLSearchParams({ redirect });
+
+        toStr += `?${params.toString()}`;
+      }
+
+      window.location.replace(toStr);
     }
   }
 
-  logout(redirect = '/') {
+  logout(redirect?: string) {
     // TODO clear user info when accessToken expired.
     if (process.client) {
-      const params = new URLSearchParams({ redirect })
-      const toStr = '/oidc/logout?' + params.toString()
+      let toStr = '/oidc/logout';
 
-      this.$useState.value.user = {}
-      this.$useState.value.isLoggedIn = false
+      if (redirect) {
+        const params = new URLSearchParams({ redirect });
 
-      this.$storage.removeUserInfo()
-      window.location.replace(toStr)
+        toStr += `?${params.toString()}`;
+      }
+
+      this.$useState.value.user = {};
+      this.$useState.value.isLoggedIn = false;
+
+      this.$storage.removeUserInfo();
+      window.location.replace(toStr);
     }
   }
 }
