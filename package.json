@@ -1,6 +1,6 @@
 {
   "name": "nuxt-openid",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "description": "OpenID-Connect (OIDC) integration module for Nuxt",
   "keywords": [
     "nuxt",
