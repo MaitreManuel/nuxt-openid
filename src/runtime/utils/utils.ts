@@ -64,14 +64,14 @@ export const getRedirectUrl = (uri: string | null | undefined, defaultUri: strin
   return searchParams.get('redirect') || defaultUri;
 }
 
-export function getCallbackUrl(callbackUrl: string, redirectUrl: string, host: string | undefined): string {
+export function getCallbackUrl(callbackUrl: string, redirectUrl: string, headers: string | undefined): string {
   return callbackUrl && callbackUrl.length > 0
     ? `${callbackUrl}${callbackUrl.includes('?') ? '&' : '?'}redirect=${redirectUrl}`
-    : getDefaultBackUrl(redirectUrl, host);
+    : getDefaultBackUrl(redirectUrl, headers);
 }
 
-export function getDefaultBackUrl(redirectUrl: string, host: string | undefined): string {
-  return `http://${host}/oidc/cbt?redirect=${redirectUrl}`;
+export function getDefaultBackUrl(redirectUrl: string, { host, 'x-forwarded-proto': protocol = 'https' }: string | undefined): string {
+  return `${protocol}://${host}/oidc/cbt?redirect=${redirectUrl}`;
 }
 
 /**

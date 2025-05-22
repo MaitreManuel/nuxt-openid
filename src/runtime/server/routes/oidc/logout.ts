@@ -13,16 +13,25 @@ export default defineEventHandler(async (event) => {
   }
 
   const redirectUrl = getRedirectUrl(req.url, op.redirectLogoutUrl);
+  const callbackUrl = getCallbackUrl(op.callbackLogoutUrl, redirectUrl, req.headers);
+  const defCallBackUrl = getDefaultBackUrl(redirectUrl, req.headers);
+
   const refreshToken = getCookie(event, config.cookiePrefix + 'refresh_token');
 
-  const callbackUrl = getCallbackUrl(op.callbackLogoutUrl, redirectUrl, req.headers.host);
+  if (config.debug) {
+    console.log(`[LOGOUT]: req.url: ${req.url}`);
+    console.log(`[LOGOUT]: op.redirectLogoutUrl: ${op.redirectLogoutUrl}, redirectUrl: ${redirectUrl}`);
+    console.log(`[LOGOUT]: op.callbackLogoutUrl: ${op.callbackLogoutUrl}, callbackUrl: ${callbackUrl}`);
+    console.log(`[LOGOUT]: defCallBackUrl: ${defCallBackUrl}`);
+    console.log(`[LOGOUT]: protocol: ${req.headers['x-forwarded-proto']}, host: ${req.headers.host}`);
+  }
 
   deleteCookie(event, config.secret);
   deleteCookie(event, config.cookiePrefix + 'access_token');
   deleteCookie(event, config.cookiePrefix + 'refresh_token');
   deleteCookie(event, config.cookiePrefix + 'user_info');
 
-  const issueClient = await initClient(op, req, [callbackUrl]);
+  const issueClient = await initClient(op, req, [callbackUrl, defCallBackUrl]);
   const tokenSet = await issueClient.refresh(refreshToken);
 
   const parameters = {
@@ -32,7 +41,7 @@ export default defineEventHandler(async (event) => {
   const logoutUrl = issueClient.endSessionUrl(parameters);
 
   if (config.debug) {
-    console.log(`[Logout]: Logout Url: ${logoutUrl}`);
+    console.log(`[LOGOUT]: Logout Url: ${logoutUrl}`);
   }
 
   // delete part of cookie userinfo (depends on user's setting.).

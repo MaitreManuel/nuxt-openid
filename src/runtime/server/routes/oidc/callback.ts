@@ -33,8 +33,8 @@ export default defineEventHandler(async (event) => {
 
   const redirectUrl = getRedirectUrl(req.url, sessionid ? op.redirectUrl : op.redirectLogoutUrl);
 
-  const callbackUrl = getCallbackUrl(op.callbackUrl, redirectUrl, req.headers.host);
-  const defCallBackUrl = getDefaultBackUrl(redirectUrl, req.headers.host);
+  const callbackUrl = getCallbackUrl(op.callbackUrl, redirectUrl, req.headers);
+  const defCallBackUrl = getDefaultBackUrl(redirectUrl, req.headers);
 
   const issueClient = await initClient(op, req, [defCallBackUrl, callbackUrl]);
   const params = issueClient.callbackParams(request);
