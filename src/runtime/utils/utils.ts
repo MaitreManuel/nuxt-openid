@@ -53,13 +53,13 @@ export const isUnset = (o: unknown): boolean => typeof o === 'undefined' || o ==
 
 export const isSet = (o: unknown): boolean => !isUnset(o);
 
-export const getRedirectUrl = (uri: string | null | undefined, defaultUri: string = '/'): string => {
-  if (!uri) {
+export const getRedirectUrl = (path: string | null | undefined, defaultUri: string = '/'): string => {
+  if (!path) {
     return defaultUri;
   }
 
-  const idx = uri.indexOf('?');
-  const searchParams = new URLSearchParams(idx >= 0 ? uri.substring(idx) : uri);
+  const idx = path.indexOf('?');
+  const searchParams = new URLSearchParams(idx >= 0 ? path.substring(idx) : path);
 
   return searchParams.get('redirect') || defaultUri;
 }

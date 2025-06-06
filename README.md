@@ -42,7 +42,6 @@ export default defineNuxtConfig({
       clientId: '',
       clientSecret: '',
       callbackUrl: '',
-      callbackLogoutUrl: '',
       scope: [],
     },
     config: {
@@ -105,7 +104,6 @@ oidc.isLoggedIn
 | `clientId`          |  `string`  | `''`                                 | Client identifier registered with the identity provider, might be different from realm name                  |
 | `clientSecret`      |  `string`  | `''`                                 | Client secret                                                                                                |
 | `callbackUrl`       |  `string`  | `''`                                 | Optional, for custom callback after login                                                                    |
-| `callbackLogoutUrl` |  `string`  | `''`                                 | Optional, for custom callback after logout, same as login by default                                         |
 | `redirectUrl`       |  `string`  | `'/'`                                | For custom redirection after login                                                                           |
 | `redirectLogoutUrl` |  `string`  | `'/'`                                | For custom redirection after logout                                                                          |
 | `scope`             | `string[]` | `[]`                                 | Used during authentication to authorize access to a user's details                                           |
@@ -157,7 +155,6 @@ NUXT_OPENID_CONNECT_OP_CLIENT_ID=admin
 NUXT_OPENID_CONNECT_OP_CLIENT_SECRET=1dOuDoUdIdAdAdA2
 
 NUXT_OPENID_CONNECT_OP_CALLBACK_URL=https://nuxt.example.com/oidc/callback
-NUXT_OPENID_CONNECT_OP_CALLBACK_LOGOUT_URL=https://nuxt.example.com/oidc/callback
 
 NUXT_OPENID_CONNECT_OP_REDIRECT_URL=https://nuxt.example.com/profile
 NUXT_OPENID_CONNECT_OP_REDIRECT_LOGOUT_URL=https://nuxt.example.com/homepage

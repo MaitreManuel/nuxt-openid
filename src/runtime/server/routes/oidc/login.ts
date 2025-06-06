@@ -1,4 +1,4 @@
-import { defineEventHandler, setCookie, getCookie } from 'h3';
+import { defineEventHandler, setCookie, getCookie, getRequestProtocol, getRequestHost, getRequestHeaders } from 'h3';
 import { generators } from 'openid-client';
 
 import { getRedirectUrl, getCallbackUrl, getDefaultBackUrl, getResponseMode } from '../../../utils/utils';
@@ -15,9 +15,9 @@ export default defineEventHandler(async (event) => {
   const req = event.node.req;
   const res = event.node.res;
 
-  const redirectUrl = getRedirectUrl(req.url, op.redirectUrl);
+  const redirectUrl = getRedirectUrl(event.path, op.redirectUrl);
   const callbackUrl = getCallbackUrl(op.callbackUrl, redirectUrl, req.headers);
-  const defCallBackUrl = getDefaultBackUrl(redirectUrl, req.headers);
+  const defCallBackUrl = getDefaultBackUrl(redirectUrl, getRequestHeaders(event));
 
   const issueClient = await initClient(op, req, [callbackUrl, defCallBackUrl]);
   const sessionkey = config.secret;
@@ -39,12 +39,12 @@ export default defineEventHandler(async (event) => {
   const scopes = op.scope.includes('openid') ? op.scope : [...op.scope, 'openid'];
 
   if (config.debug) {
-    console.log(`[LOGIN]: req.url: ${req.url}`);
-    console.log(`[LOGIN]: op.redirectLogoutUrl: ${op.redirectUrl}, redirectUrl: ${redirectUrl}`);
-    console.log(`[LOGIN]: op.callbackLogoutUrl: ${op.callbackUrl}, callbackUrl: ${callbackUrl}`);
+    console.log(`[LOGIN]: event.path: ${event.path}`);
+    console.log(`[LOGIN]: op.redirectUrl: ${op.redirectUrl}, redirectUrl: ${redirectUrl}`);
+    console.log(`[LOGIN]: op.callbackUrl: ${op.callbackUrl}, callbackUrl: ${callbackUrl}`);
     console.log(`[LOGIN]: defCallBackUrl: ${defCallBackUrl}`);
     console.log(`[LOGIN]: response_mode: ${responseMode}, response_type: ${config.response_type}, scopes: ${scopes.join(' ')}`);
-    console.log(`[LOGIN]: protocol: ${req.headers['x-forwarded-proto']}, host: ${req.headers.host}`);
+    console.log(`[LOGIN]: protocol: ${getRequestProtocol(event)}, host: ${getRequestHost(event)}`);
   }
 
   const parameters = {
