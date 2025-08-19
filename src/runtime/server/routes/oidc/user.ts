@@ -34,6 +34,10 @@ export default defineEventHandler(async (event) => {
       // load user info from oidc server.
       const userinfo = await issueClient.userinfo(accesstoken);
 
+      if (config.debug) {
+        console.log(`userinfo: ${userinfo}`);
+      }
+
       // add encrypted userinfo to cookies.
       await setCookieInfo(event, config, userinfo);
 
@@ -65,7 +69,6 @@ export default defineEventHandler(async (event) => {
     if (config.debug) {
       console.log('refreshed and validated tokens %j', tokenSet);
       console.log('refreshed ID Token claims %j', tokenSet.claims());
-      console.log(`userinfo: ${userinfo}`);
     }
 
     if (tokenSet.access_token) {
