@@ -4,6 +4,7 @@
   "description": "OpenID-Connect (OIDC) integration module for Nuxt",
   "keywords": [
     "nuxt",
+    "openid",
     "oidc",
     "module",
     "nuxt 3",
