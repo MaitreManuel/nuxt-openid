@@ -13,7 +13,12 @@ export default defineNuxtConfig({
   },
 
   modules: [
-    'nuxt-openid'
+    [
+      'nuxt-openid',
+      {
+        autoImports: ['useOidc'],
+      },
+    ],
   ],
 
   runtimeConfig: {
