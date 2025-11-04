@@ -13,7 +13,7 @@ export default defineNuxtConfig({
   },
 
   modules: [
-    'nuxt-openid-connect'
+    'nuxt-openid'
   ],
 
   runtimeConfig: {
