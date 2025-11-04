@@ -54,7 +54,7 @@ export default defineNuxtModule<ModuleOptions>({
     configKey: 'openidConnect',
     compatibility: {
       // Semver version of supported nuxt versions
-      nuxt: '^3.0.0-rc.8'
+      nuxt: '>=3.0.0'
     }
   },
   defaults: {
