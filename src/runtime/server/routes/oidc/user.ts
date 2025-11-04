@@ -35,7 +35,8 @@ export default defineEventHandler(async (event) => {
       const userinfo = await issueClient.userinfo(accesstoken);
 
       if (config.debug) {
-        console.log(`userinfo: ${userinfo}`);
+        console.log('userinfo:');
+        console.log(userinfo);
       }
 
       // add encrypted userinfo to cookies.
