@@ -1,10 +1,11 @@
-import { Issuer } from 'openid-client'
+// import { Issuer } from 'openid-client'
+import * as client from 'openid-client'
 import { OidcProvider } from '../../module'
 import { useRuntimeConfig } from '#imports'
 
 export const initClient = async (op: OidcProvider, req: any, redirectUris: string[]) => {
   const { config } = useRuntimeConfig().openidConnect
-  const issuer = await Issuer.discover(op.issuer)
+  const issuer = await client.Issuer.discover(op.issuer)
   // console.log('Discovered issuer %s %O', issuer.issuer, issuer.metadata)
   const client = new issuer.Client({
     client_id: op.clientId,
