@@ -1,6 +1,6 @@
 {
   "name": "nuxt-openid",
-  "version": "0.10.1",
+  "version": "0.10.2",
   "description": "OpenID-Connect (OIDC) integration module for Nuxt",
   "keywords": [
     "nuxt",
@@ -38,19 +38,19 @@
     "pub": "npm publish --access public"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.20.0",
-    "defu": "^6.1.4",
+    "@nuxt/kit": "^4.4.8",
+    "defu": "^6.1.7",
     "openid-client": "^5.7.1",
-    "uuid": "^9.0.1"
+    "uuid": "^14.0.0"
   },
   "devDependencies": {
     "@nuxt/module-builder": "^1.0.2",
     "@nuxtjs/eslint-config-typescript": "^12.1.0",
-    "@types/node": "^24.10.0",
-    "brace-expansion": "^1.1.12",
-    "eslint": "^8.57.1",
-    "nuxt": "^3.20.0",
-    "typescript": "^5.9.3"
+    "@types/node": "^25.9.2",
+    "brace-expansion": "^2.1.1",
+    "eslint": "^10.4.1",
+    "nuxt": "^4.4.8",
+    "typescript": "^6.0.3"
   },
   "bugs": {
     "url": "https://github.com/MaitreManuel/nuxt-openid/issues"

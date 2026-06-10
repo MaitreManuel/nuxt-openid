@@ -1,5 +1,6 @@
 import { defineEventHandler, setCookie, getCookie, getRequestProtocol, getRequestHost, getRequestHeaders } from 'h3';
-import { generators } from 'openid-client';
+// import { generators } from 'openid-client';
+import * as client from 'openid-client';
 
 import { getRedirectUrl, getCallbackUrl, getDefaultBackUrl, getResponseMode } from '../../../utils/utils';
 import { initClient } from '../../../utils/issueclient';
@@ -24,7 +25,7 @@ export default defineEventHandler(async (event) => {
   let sessionid = getCookie(event, config.secret);
 
   if (!sessionid) {
-    sessionid = generators.nonce();
+    sessionid = client.generators.nonce();
 
     if (config.debug) {
       console.log(`[LOGIN]: regenerate sessionid=${sessionid}`);
