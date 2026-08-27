@@ -15,7 +15,6 @@ export default defineEventHandler(async (event) => {
   const accesstoken = getCookie(event, config.cookiePrefix + 'access_token');
   const refreshToken = getCookie(event, config.cookiePrefix + 'refresh_token');
   const userinfoCookie = getCookie(event, config.cookiePrefix + 'user_info');
-  const issueClient = await initClient(op, event.node.req, []);
 
   if (userinfoCookie) {
     if (config.debug) {
@@ -31,6 +30,7 @@ export default defineEventHandler(async (event) => {
     }
 
     try {
+      const issueClient = await initClient(op, event.node.req, []);
       // load user info from oidc server.
       const userinfo = await issueClient.userinfo(accesstoken);
 
@@ -64,22 +64,26 @@ export default defineEventHandler(async (event) => {
     if (config.debug) {
       console.log('userinfo: refresh token');
     }
+    try {
+      const issueClient = await initClient(op, event.node.req, []);
+      const tokenSet = await issueClient.refresh(refreshToken);
 
-    const tokenSet = await issueClient.refresh(refreshToken);
+      if (config.debug) {
+        console.log('refreshed and validated tokens %j', tokenSet);
+        console.log('refreshed ID Token claims %j', tokenSet.claims());
+      }
 
-    if (config.debug) {
-      console.log('refreshed and validated tokens %j', tokenSet);
-      console.log('refreshed ID Token claims %j', tokenSet.claims());
-    }
+      if (tokenSet.access_token) {
+        const userinfo = await issueClient.userinfo(tokenSet.access_token);
 
-    if (tokenSet.access_token) {
-      const userinfo = await issueClient.userinfo(tokenSet.access_token);
+        setCookieTokenAndRefreshToken(event, config, tokenSet);
+        await setCookieInfo(event, config, userinfo);
 
-      setCookieTokenAndRefreshToken(event, config, tokenSet);
-      await setCookieInfo(event, config, userinfo);
-
-      return userinfo;
-    } else {
+        return userinfo;
+      } else {
+        return {};
+      }
+    } catch (err) {
       return {};
     }
   } else {
