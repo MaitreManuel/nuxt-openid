@@ -50,13 +50,15 @@ export class Oidc {
   }
 
   setUser(user: any) {
-    this.state.user = user
-    this.state.isLoggedIn = Object.keys(user).length > 0
+    const normalizedUser = user ?? {}
 
-    this.$useState.value.user = user
-    this.$useState.value.isLoggedIn = Object.keys(user).length > 0
+    this.state.user = normalizedUser
+    this.state.isLoggedIn = Object.keys(normalizedUser).length > 0
 
-    this.$storage.setUserInfo(user)
+    this.$useState.value.user = normalizedUser
+    this.$useState.value.isLoggedIn = Object.keys(normalizedUser).length > 0
+
+    this.$storage.setUserInfo(normalizedUser)
   }
 
   async fetchUser() {
@@ -80,12 +82,12 @@ export class Oidc {
       } else {
         // this.$useState.value.user is set by server, and pass to client ? how achived it ?
         // console.log('client-render: fetchUser from server.')
-        const { data, pending, refresh, error } = await useFetch('/oidc/user')
-        this.setUser(data.value)
-        // console.log('fetchUser from server-api call.', data.value)
+        const { data, error } = await useFetch('/oidc/user')
         if (error && error.value) {
           console.error('failed to fetch user data: ', error.value)
           this.setUser({})
+        } else {
+          this.setUser(data.value ?? {})
         }
       }
     } catch (err) {
